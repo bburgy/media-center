@@ -22,6 +22,30 @@ services:
   #   ports:
   #     - 8080:8080 # qbittorrent webui
 
+  swag:
+    container_name: swag
+    image: linuxserver/swag
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    volumes:
+      - /home/media-center/config/swag:/config
+    ports:
+      - 8080:80
+      - 8443:443
+      - 81:81 # dashboard
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich,
+      - URL=domain.ch
+      - SUBDOMAINS=overseer,plex
+      - EMAIL=my@domain.ch
+      - ONLY_SUBDOMAINS=true
+      - STAGING=false # IMPORTANT: Switch to True when you are testing otherwise you will reach the limit very quickly.
+      - SWAG_AUTORELOAD=true
+      - DOCKER_MODS=linuxserver/mods:swag-dashboard # proxy dashboard available at the address http://<host>:81
+
   qbittorrent:
     container_name: qbittorrent
     image: linuxserver/qbittorrent:latest
