@@ -31,9 +31,9 @@ services:
     volumes:
       - /home/media-center/config/swag:/config
     ports:
-      - 8080:80
-      - 8443:443
-      - 81:81 # dashboard
+      - 80:80 # Make it accessible from the WAN by by configuring the NAT on your router to forward the port 80 to this host.
+      - 443:443 # Make it accessible from the WAN by by configuring the NAT on your router to forward the port 443 to this host.
+      - 81:81 # Keep the dashboard only accessible from you LAN.
     environment:
       - PUID=1000
       - PGID=1000
@@ -42,7 +42,7 @@ services:
       - SUBDOMAINS=overseer,plex
       - EMAIL=my@domain.ch
       - ONLY_SUBDOMAINS=true
-      - STAGING=false # IMPORTANT: Switch to True when you are testing otherwise you will reach the limit very quickly.
+      - STAGING=true # IMPORTANT: Keep to True when you are testing otherwise you will reach the limit very quickly.
       - SWAG_AUTORELOAD=true
       - DOCKER_MODS=linuxserver/mods:swag-dashboard # proxy dashboard available at the address http://<host>:81
 
